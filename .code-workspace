@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "name": "luaq.dev",
+            "path": "."
+        }
+    ],
+
+    "settings": {
+        "css.lint.unknownAtRules": "ignore"
+    }
+}

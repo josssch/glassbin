@@ -1,0 +1,17 @@
+{
+    "editorconfig": true,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "semi": false,
+    "trailingComma": "all",
+    "arrowParens": "avoid",
+    "tabWidth": 4,
+    "bracketSpacing": true,
+    "printWidth": 80,
+    "plugins": ["prettier-plugin-svelte"],
+    "svelteSortOrder": "options-scripts-markup-styles",
+    "svelteStrictMode": false,
+    "svelteBracketNewLine": true,
+    "svelteAllowShorthand": true,
+    "svelteIndentScriptAndStyle": true
+}
