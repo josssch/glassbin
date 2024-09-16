@@ -1,24 +1,38 @@
 <script>
+    import { page } from '$app/stores'
     import Editor from '$lib/components/editor/Editor.svelte'
     import GlassButton from '$lib/components/form/GlassButton.svelte'
-    import VerticalFullscreen from '$lib/components/layout/VerticalFullscreen.svelte'
-    import { transfer } from '$lib/store.js'
+    import Fullscreen from '$lib/components/layout/Fullscreen.svelte'
+    import { getLanguageFileExt, languageFromFileName } from '$lib/highlight'
+    import { editorOptions } from '$lib/store/editor-options'
     import { onMount } from 'svelte'
 
     let title = ''
     let code = ''
 
     let editorForm
-    let language
 
-    let detectedLanguage
+    let languageOption = 'auto'
+    let detectedLanguage = ''
 
-    const autoFocus = el => el?.focus?.()
+    $: {
+        const fileNameLang = languageFromFileName(title)
+        if (fileNameLang) languageOption = fileNameLang
+    }
+
+    let placeholderTitle = 'snippet'
+    $: if (!title) {
+        const ext = getLanguageFileExt(
+            languageOption === 'auto' ? detectedLanguage : languageOption,
+        )
+
+        placeholderTitle = ext ? `snippet.${ext}` : 'snippet'
+    }
 
     onMount(() => {
-        if ($transfer) {
-            ;({ code, language } = $transfer)
-            transfer.set(null)
+        if ($page.state.post) {
+            ;({ title, code, language: languageOption } = $page.state.post)
+            delete $page.state.post
         }
     })
 
@@ -42,29 +56,36 @@
     }
 </script>
 
-<VerticalFullscreen class="gap-2">
+<Fullscreen class="flex-col gap-2">
     <!-- <h1 class="font-bold text-3xl">Write</h1> -->
     <!-- <p class="font-light mb-4">paste your code below</p> -->
 
     <form
         bind:this={editorForm}
-        class="grow relative flex flex-col gap-2"
+        class="flex-1 relative flex flex-col gap-2"
         method="post"
+        on:formdata={({ formData }) => {
+            // default title to the preview title as a default
+            if (!formData.get('title')) {
+                formData.set('title', placeholderTitle)
+            }
+        }}
     >
         <input
             class="glass rounded-xl px-4 py-2 font-mono text-center text-white/50 focus:text-white w-72"
             name="title"
-            placeholder="new file"
+            placeholder={placeholderTitle}
             bind:value={title}
-            use:autoFocus
         />
 
         <Editor
             bind:code
             name="code"
-            bind:language
+            bind:editorOptions={$editorOptions}
+            bind:language={languageOption}
             bind:detectedLanguage
             on:submit={onSubmit}
+            autofocus
         >
             <div class="flex gap-2 grow" slot="actions">
                 {#each actions as action (action.text)}
@@ -80,4 +101,4 @@
 
         <input type="hidden" name="language" bind:value={detectedLanguage} />
     </form>
-</VerticalFullscreen>
+</Fullscreen>

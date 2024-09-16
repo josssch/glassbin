@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher, onMount, tick } from 'svelte'
+    import { createEventDispatcher, tick } from 'svelte'
 
     import { highlight, languages } from '$lib/highlight.js'
     import Select from '../form/Select.svelte'
@@ -11,15 +11,17 @@
     let textArea
     let highlightedDom
 
-    // todo: make this save in localstorage
     export let editorOptions = {
-        spaces: 2,
+        defaultLanguage: 'auto',
+        tabSize: 2,
     }
 
     export let name
 
+    export let autofocus = false
+
     // always default to auto
-    export let language = 'auto'
+    export let language = editorOptions.defaultLanguage
     export let code = ''
 
     export let detectedLanguage = null
@@ -35,11 +37,14 @@
     }
 
     function onKeyDown(event) {
+        const isCommandS = event.metaKey && event.key === 's'
+
         if (
-            event.ctrlKey &&
-            !event.altKey &&
-            !event.shiftKey &&
-            !event.metaKey
+            isCommandS ||
+            (event.ctrlKey &&
+                !event.altKey &&
+                !event.shiftKey &&
+                !event.metaKey)
         ) {
             handleCtrl(event)
             return
@@ -65,13 +70,13 @@
 
         code =
             code.substring(0, start) +
-            ' '.repeat(editorOptions.spaces) +
+            ' '.repeat(editorOptions.tabSize) +
             code.substring(end)
 
         tick().then(
             () =>
                 (textArea.selectionStart = textArea.selectionEnd =
-                    start + editorOptions.spaces),
+                    start + editorOptions.tabSize),
         )
 
         // todo: handle shift + tab
@@ -106,7 +111,7 @@
             innerText.substring(startOfLine).match(/^[ \t]+/)?.[0] ?? ''
 
         if (increaseIndents) {
-            spaces += ' '.repeat(editorOptions.spaces)
+            spaces += ' '.repeat(editorOptions.tabSize)
         }
 
         insertAt(`\n${spaces}`, cursorPos)
@@ -211,26 +216,31 @@
         navigator.clipboard.writeText(text)
     }
 
+    const CODE_BLOCK_STYLES =
+        'absolute inset-0 p-8 break-words whitespace-pre-wrap overflow-hidden'
+
     ///
 </script>
 
 <div class="flex flex-col gap-2 h-full">
     <div class="relative glass rounded-xl font-mono grow">
+        <!-- svelte-ignore a11y-autofocus -->
         <textarea
             bind:this={textArea}
             bind:value={code}
             on:scroll={onTextAreaScroll}
             on:keydown={onKeyDown}
-            class="absolute top-0 left-0 p-8 bg-transparent text-transparent caret-white resize-none w-full h-full"
+            class="{CODE_BLOCK_STYLES} bg-transparent text-transparent caret-white resize-none"
             autocorrect="false"
             spellcheck="false"
+            {autofocus}
             {name}
         ></textarea>
 
         <!-- ugly formatting required otherwise whitespace will be where it shouldn't -->
         <pre
             bind:this={highlightedDom}
-            class="absolute top-0 left-0 p-8 pointer-events-none z-50 w-full h-full break-words whitespace-pre-wrap overflow-hidden">{@html highlightedCode}{#if code.endsWith('\n')}
+            class="{CODE_BLOCK_STYLES} pointer-events-none z-50">{@html highlightedCode}{#if code.endsWith('\n')}
                 <!-- this is here so when there's an empty line at the end the scroll doesn't fall out of sync -->
                 <br
                 />
@@ -238,7 +248,7 @@
 
         {#if code.length === 0}
             <pre
-                class="absolute p-8 text-white/50 z-50 pointer-events-none">if (!false) console.log('Hello world')
+                class="{CODE_BLOCK_STYLES} text-white/50 z-50 pointer-events-none">if (!false) console.log('Hello world')
             </pre>
         {/if}
     </div>
@@ -256,7 +266,7 @@
             <Select
                 label="Spaces"
                 options={[2, 4, 8]}
-                bind:selected={editorOptions.spaces}
+                bind:selected={editorOptions.tabSize}
             />
         </Toolbar>
     </div>
