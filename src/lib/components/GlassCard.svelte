@@ -9,7 +9,7 @@
 
 <a
     {href}
-    class="flex flex-col gap-2 items-center justify-center px-6 py-8 glass rounded-xl shadow-lg cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:shadow-xl"
+    class="flex flex-col gap-2 items-center justify-center px-6 py-8 glass rounded-xl shadow-lg cursor-pointer transition-all duration-500 focus:-translate-y-2 hover:-translate-y-2 hover:shadow-xl"
 >
     <i class="{icon} text-white text-6xl"></i>
 
