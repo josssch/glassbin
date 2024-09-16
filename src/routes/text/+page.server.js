@@ -7,19 +7,34 @@ export const actions = {
         await connect()
 
         const data = await request.formData()
+
+        const title = data.get('title')
         const code = data.get('code')
         const language = data.get('language')
 
         if (!code || code.length === 0) return fail(400, 'missing code')
 
-        const id = generateId()
+        let id = generateId(8)
+        let url = id
 
-        await Post.create({
-            id,
-            code,
-            language,
-        })
+        if (title) {
+            id = generateId(4)
+            url = `${id}-${title}`
+        }
 
-        throw redirect(301, `/t/${id}`)
+        try {
+            await Post.create({
+                id,
+                url,
+
+                title,
+                code,
+                language,
+            })
+
+            redirect(301, `/t/${url}`)
+        } catch (err) {
+            return fail(400, { error: 'Invalid post' })
+        }
     },
 }

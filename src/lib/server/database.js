@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 let MONGO_URL
 
@@ -16,20 +16,37 @@ export async function connect() {
 
 export const Post =
     mongoose.models.Post ??
-    mongoose.model('Post', {
-        type: {
-            type: String,
-            enum: ['text', 'file'],
-        },
+    mongoose.model(
+        'Post',
+        new Schema(
+            {
+                type: {
+                    type: String,
+                    enum: ['text', 'file'],
+                    required: true,
+                },
 
-        id: String,
+                id: {
+                    type: String,
+                    unique: true,
+                    required: true,
+                },
 
-        title: String,
-        code: String,
-        language: String,
+                url: {
+                    type: String,
+                    unique: true,
+                    required: true,
+                },
 
-        createdAt: {
-            type: Number,
-            default: () => Date.now(),
-        },
-    })
+                title: String,
+                code: String,
+                language: String,
+
+                createdAt: {
+                    type: Number,
+                    default: () => Date.now(),
+                },
+            },
+            { _id: false },
+        ),
+    )

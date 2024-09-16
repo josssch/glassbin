@@ -1,14 +1,14 @@
 <script>
+    import { goto } from '$app/navigation'
     import GlassButton from '$lib/components/form/GlassButton.svelte'
     import VerticalFullscreen from '$lib/components/layout/VerticalFullscreen.svelte'
     import { highlight } from '$lib/highlight.js'
-    import { redirectWithData } from '$lib/store.js'
 
     export let data
 
     $: ({ post } = data)
 
-    $: ({ language, value: highlighted } = highlight({
+    $: ({ value: highlighted } = highlight({
         code: post.code,
         language: post.language,
     }))
@@ -20,7 +20,11 @@
     }
 
     function edit() {
-        redirectWithData('/text', post)
+        goto('/text', {
+            state: {
+                post,
+            },
+        })
     }
 </script>
 
