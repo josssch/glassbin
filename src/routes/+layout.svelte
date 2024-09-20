@@ -20,6 +20,4 @@
     <slot />
 
     <Footer />
-
-    <Background />
 </div>
