@@ -10,5 +10,5 @@ FROM build AS release
 
 COPY --from=build /app/build ./
 
-RUN bun install --production --no-save
+RUN bun install
 CMD bun run start
