@@ -7,12 +7,14 @@
     import { editorOptions } from '$lib/store/editor-options'
     import { onMount } from 'svelte'
 
-    let title = ''
-    let code = ''
+    export let form
+
+    let title = form?.title || ''
+    let code = form?.code || ''
 
     let editorForm
 
-    let languageOption = 'auto'
+    let languageOption = form?.language || 'auto'
     let detectedLanguage = ''
 
     $: {
@@ -57,8 +59,9 @@
 </script>
 
 <Fullscreen class="flex-col gap-2">
-    <!-- <h1 class="font-bold text-3xl">Write</h1> -->
-    <!-- <p class="font-light mb-4">paste your code below</p> -->
+    {#if form?.error}
+        <p class="font-medium text-red-600 mb-4">error: {form.error}</p>
+    {/if}
 
     <form
         bind:this={editorForm}
@@ -72,7 +75,7 @@
         }}
     >
         <input
-            class="glass rounded-xl px-4 py-2 font-mono text-center text-white/50 focus:text-white w-72"
+            class="glass rounded-xl px-4 py-2 font-mono text-center text-white/50 focus:text-white w-72 placeholder:text-white/50"
             name="title"
             placeholder={placeholderTitle}
             bind:value={title}

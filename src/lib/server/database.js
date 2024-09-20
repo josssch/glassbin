@@ -18,35 +18,33 @@ export const Post =
     mongoose.models.Post ??
     mongoose.model(
         'Post',
-        new Schema(
-            {
-                type: {
-                    type: String,
-                    enum: ['text', 'file'],
-                    required: true,
-                },
-
-                id: {
-                    type: String,
-                    unique: true,
-                    required: true,
-                },
-
-                url: {
-                    type: String,
-                    unique: true,
-                    required: true,
-                },
-
-                title: String,
-                code: String,
-                language: String,
-
-                createdAt: {
-                    type: Number,
-                    default: () => Date.now(),
-                },
+        new Schema({
+            type: {
+                type: String,
+                enum: ['text', 'file'],
+                default: 'text',
+                required: true,
             },
-            { _id: false },
-        ),
+
+            id: {
+                type: String,
+                unique: true,
+                required: true,
+            },
+
+            url: {
+                type: String,
+                unique: true,
+                required: true,
+            },
+
+            title: String,
+            code: String,
+            language: String,
+
+            createdAt: {
+                type: Number,
+                default: () => Date.now(),
+            },
+        }),
     )
