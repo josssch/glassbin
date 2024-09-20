@@ -2,15 +2,15 @@
     const links = [
         {
             title: 'who?',
-            href: '/',
+            href: '/faq#who',
         },
         {
             title: 'what?',
-            href: '/',
+            href: '/faq#what',
         },
         {
             title: 'how?',
-            href: '/',
+            href: '/faq#how',
         },
     ]
 </script>
