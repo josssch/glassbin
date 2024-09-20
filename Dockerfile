@@ -10,6 +10,5 @@ FROM build AS release
 
 COPY --from=build /app/build ./
 
-RUN bun install --production --no-save --frozen-lockfile
-
+RUN bun install --production --no-save
 CMD bun run start
