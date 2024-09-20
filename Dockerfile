@@ -11,4 +11,4 @@ FROM oven/bun:1.1.28-slim AS release
 COPY --from=build /app/build ./
 
 RUN bun install
-CMD bun run start
+CMD bun ./index.js
