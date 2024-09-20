@@ -6,7 +6,7 @@ COPY . .
 RUN bun install
 RUN bun run build
 
-FROM build AS release
+FROM oven/bun:1.1.28-slim AS release
 
 COPY --from=build /app/build ./
 
