@@ -6,9 +6,11 @@ COPY . .
 RUN bun install
 RUN bun run build
 
-FROM oven/bun:1.1.28-slim AS release
+FROM node:22.7.0-slim
+
+COPY --from=build /app/package.json .
+
+RUN npm install --omit=dev
 
 COPY --from=build /app/build ./
-
-RUN bun install
-CMD bun ./index.js
+CMD node ./index.js
