@@ -13,6 +13,8 @@ GlassBin is a dynamic web platform designed for sharing and managing code snippe
 
 ### To-Do List
 
+-   [ ] Favicon
+-   [ ] SEO & Social Embeds
 -   [ ] Image/File Upload: Implementing functionality for users to upload images and files.
 -   [ ] Markdown Display: Rendering markdown snippets in formatted view rather than raw markdown.
 -   [ ] Download Images: Feature to download images directly from the platform.
@@ -37,4 +39,4 @@ GlassBin is a dynamic web platform designed for sharing and managing code snippe
 
 ### Running the Project
 
-Execute `bun run dev` in the terminal within the project directory. This will start the development server for GlassBin.
+Execute `bun run --bun dev` in the terminal within the project directory. This will start the development server for GlassBin.
