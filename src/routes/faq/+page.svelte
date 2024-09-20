@@ -1,5 +1,4 @@
 <script>
-    import AnchorTitle from '$lib/components/layout/AnchorTitle.svelte'
     import ExplainerSection from '$lib/components/layout/ExplainerSection.svelte'
     import VerticalFullscreen from '$lib/components/layout/VerticalFullscreen.svelte'
 </script>
