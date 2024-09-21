@@ -43,7 +43,7 @@ export const actions = {
 
         if (title) {
             id = generateId(4)
-            url = `${id}-${title.replace(/[^-\w]+/g, '_')}`
+            url = `${id}-${title.replace(/[^-\w.]+/g, '-')}`
         }
 
         try {
