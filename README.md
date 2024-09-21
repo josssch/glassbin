@@ -13,8 +13,7 @@ GlassBin is a dynamic web platform designed for sharing and managing code snippe
 
 ### To-Do List
 
--   [ ] Favicon
--   [ ] SEO & Social Embeds
+-   [ ] Raw URLs: Allow for code snippets to be directly fetched without fancy HTML.
 -   [ ] Image/File Upload: Implementing functionality for users to upload images and files.
 -   [ ] Markdown Display: Rendering markdown snippets in formatted view rather than raw markdown.
 -   [ ] Download Images: Feature to download images directly from the platform.

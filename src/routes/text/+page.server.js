@@ -3,6 +3,12 @@ import { Post, connect } from '$lib/server/database.js'
 import { generateId } from '$lib/server/id.js'
 import { fail, redirect } from '@sveltejs/kit'
 
+export const load = () => ({
+    meta: {
+        title: 'New / Glassbin',
+    },
+})
+
 export const actions = {
     async default({ request }) {
         await connect()
