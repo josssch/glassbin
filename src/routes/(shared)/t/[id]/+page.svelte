@@ -28,7 +28,7 @@
     }
 </script>
 
-<VerticalFullscreen class="gap-2 max-h-screen">
+<VerticalFullscreen class="gap-2 max-h-screen overflow-hidden">
     <!-- code view -->
     <pre
         class="block glass p-6 rounded-xl font-mono grow overflow-scroll">{@html highlighted}</pre>
